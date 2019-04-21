@@ -1,0 +1,34 @@
+server:
+  port: 9002
+  ssl:
+    key-store:          "classpath:keystore.p12"
+    key-store-password: "12345678"
+    key-store-type:     "PKCS12"
+    key-alias:          "tomcat"
+
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          chatwork:
+            provider:                     "chatwork"
+            client-name:                  "Chatwork"
+            client-id:                    "[env]"
+            client-secret:                "[env]"
+            authorization-grant-type:     "authorization_code"
+            client-authentication-method: "POST"
+            redirect-uri:                 "{baseUrl}/login/oauth2/code/{registrationId}"
+            scope:
+              - offline_access 
+              - users.all:read 
+              - rooms.all:read_write 
+              - contacts.all:read_write
+        provider: 
+          chatwork:
+            authorization-uri:   "https://www.chatwork.com/packages/oauth2/login.php"
+            token-uri:           "https://oauth.chatwork.com/token"
+            user-info-uri:       "https://api.chatwork.com/v2/me"
+
+logging:  level:    com.example:                                 "DEBUG"
+    org.springframework.web.client.RestTemplate: "DEBUG"  
