@@ -14,11 +14,13 @@ spring:
           chatwork:
             provider:                     "chatwork"
             client-name:                  "Chatwork"
+            redirect-uri:                 "{baseUrl}/login/oauth2/code/{registrationId}"
+            
             client-id:                    "[env]"
             client-secret:                "[env]"
             authorization-grant-type:     "authorization_code"
-            client-authentication-method: "POST"
-            redirect-uri:                 "{baseUrl}/login/oauth2/code/{registrationId}"
+            client-authentication-method: "basic"
+
             scope:
               - offline_access 
               - users.all:read 
