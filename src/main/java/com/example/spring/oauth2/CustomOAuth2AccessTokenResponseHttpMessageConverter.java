@@ -1,6 +1,5 @@
 package com.example.spring.oauth2;
 
-import java.io.IOException;
 import java.util.Map;
 
 import org.springframework.http.HttpInputMessage;
@@ -25,14 +24,25 @@ public class CustomOAuth2AccessTokenResponseHttpMessageConverter
 	protected OAuth2AccessTokenResponse readInternal(
 			Class<? extends OAuth2AccessTokenResponse> clazz,
 			HttpInputMessage body)
-			throws IOException, HttpMessageNotReadableException {
+			throws HttpMessageNotReadableException {
 
-		Map<String, String> param = om.readValue(body.getBody(), reference);
-		log.debug("access token response: {}", param);
+		Map<String, String> param;
+		try {
+			param = om.readValue(body.getBody(), reference);
 
-		if (!param.containsKey("token_type")) {
-			String beare = TokenType.BEARER.getValue();
-			param.put("token_type", beare);
+			if (!param.containsKey("token_type")) {
+				String beare = TokenType.BEARER.getValue();
+				param.put("token_type", beare);
+			}
+
+			log.debug("access token response: {}", param);
+		} catch (Exception e) {
+			if (log.isDebugEnabled()) {
+				log.warn(e.getMessage(), e);
+			} else {
+				log.warn(e.getMessage());
+			}
+			throw new HttpMessageNotReadableException(e.getMessage(), e, body);
 		}
 
 		return this.tokenResponseConverter.convert(param);
