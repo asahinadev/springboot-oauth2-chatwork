@@ -12,6 +12,7 @@ spring:
       client:
         registration:
           chatwork:
+          
             provider:                     "chatwork"
             client-name:                  "Chatwork"
             redirect-uri:                 "{baseUrl}/login/oauth2/code/{registrationId}"
@@ -26,11 +27,13 @@ spring:
               - users.all:read 
               - rooms.all:read_write 
               - contacts.all:read_write
+              
         provider: 
           chatwork:
             authorization-uri:   "https://www.chatwork.com/packages/oauth2/login.php"
             token-uri:           "https://oauth.chatwork.com/token"
             user-info-uri:       "https://api.chatwork.com/v2/me"
+            user-name-attribute: "account_id"
 
 logging:  level:    com.example:                                 "DEBUG"
     org.springframework.web.client.RestTemplate: "DEBUG"  

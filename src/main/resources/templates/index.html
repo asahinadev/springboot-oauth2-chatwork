@@ -41,9 +41,9 @@ dd {
 
     <dl>
         <dt>USER NAME</dt>
-        <dd sec:authentication="name"></dd>
+        <dd th:text="${user.userName}"></dd>
         <dt>USER EMAIL</dt>
-        <dd sec:authentication="principal.email"></dd>
+        <dd th:text="${user.loginMail}"></dd>
     </dl>
 
 </body>
