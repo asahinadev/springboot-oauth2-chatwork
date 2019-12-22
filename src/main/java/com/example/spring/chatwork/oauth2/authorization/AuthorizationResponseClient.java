@@ -1,4 +1,4 @@
-package com.example.spring.oauth2;
+package com.example.spring.chatwork.oauth2.authorization;
 
 import java.util.Arrays;
 
@@ -10,15 +10,17 @@ import org.springframework.security.oauth2.client.http.OAuth2ErrorResponseErrorH
 import org.springframework.security.oauth2.core.endpoint.OAuth2AccessTokenResponse;
 import org.springframework.web.client.RestTemplate;
 
-public class AuthorizationCodeTokenResponseClient
+import com.example.spring.chatwork.oauth2.token.AccessTokenConverter;
+
+public class AuthorizationResponseClient
 		implements OAuth2AccessTokenResponseClient<OAuth2AuthorizationCodeGrantRequest> {
 
 	DefaultAuthorizationCodeTokenResponseClient defaultClient;
 
-	public AuthorizationCodeTokenResponseClient() {
+	public AuthorizationResponseClient() {
 		RestTemplate template = new RestTemplate(Arrays.asList(
 				new FormHttpMessageConverter(),
-				new CustomOAuth2AccessTokenResponseHttpMessageConverter()));
+				new AccessTokenConverter()));
 		template.setErrorHandler(new OAuth2ErrorResponseErrorHandler());
 
 		defaultClient = new DefaultAuthorizationCodeTokenResponseClient();

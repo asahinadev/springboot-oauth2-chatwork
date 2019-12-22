@@ -1,4 +1,4 @@
-package com.example.spring.oauth2;
+package com.example.spring.chatwork.oauth2.token;
 
 import java.util.Map;
 
@@ -14,7 +14,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class CustomOAuth2AccessTokenResponseHttpMessageConverter
+public class AccessTokenConverter
 		extends OAuth2AccessTokenResponseHttpMessageConverter {
 
 	private final TypeReference<Map<String, String>> reference = new TypeReference<>() {
