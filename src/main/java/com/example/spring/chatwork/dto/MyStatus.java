@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class MyStatusResponse {
+public class MyStatus {
 
 	@JsonProperty("unread_room_num")
 	private Long unreadRoom;

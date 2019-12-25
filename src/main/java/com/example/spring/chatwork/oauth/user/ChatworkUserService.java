@@ -20,6 +20,8 @@ import org.springframework.web.client.RestOperations;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.example.spring.chatwork.dto.ChatworkUser;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j

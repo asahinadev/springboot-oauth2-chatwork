@@ -1,4 +1,4 @@
-package com.example.spring.chatwork.oauth.user;
+package com.example.spring.chatwork.dto;
 
 import java.util.Arrays;
 import java.util.HashMap;

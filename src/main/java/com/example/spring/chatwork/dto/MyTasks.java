@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class MyTasksResponse {
+public class MyTasks {
 
 	@JsonProperty("task_id")
 	private Long taskId;
