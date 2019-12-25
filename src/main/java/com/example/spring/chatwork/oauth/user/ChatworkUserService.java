@@ -20,7 +20,7 @@ import org.springframework.web.client.RestOperations;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.example.spring.chatwork.dto.ChatworkUser;
+import com.example.spring.chatwork.dto.User;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -65,7 +65,7 @@ public class ChatworkUserService
 		log.debug("request  {}", request.getHeaders());
 		log.debug("request  {}", request.getBody());
 
-		ResponseEntity<ChatworkUser> response = this.restOperations.exchange(request, ChatworkUser.class);
+		ResponseEntity<User> response = this.restOperations.exchange(request, User.class);
 
 		log.debug("responce {}", response.getStatusCode());
 		log.debug("responce {}", response.getHeaders());

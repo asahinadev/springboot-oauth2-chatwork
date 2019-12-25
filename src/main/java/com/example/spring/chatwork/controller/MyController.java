@@ -3,20 +3,18 @@ package com.example.spring.chatwork.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.spring.chatwork.api.ChatworkApi;
-import com.example.spring.chatwork.dto.ChatworkUser;
-import com.example.spring.chatwork.dto.MyStatus;
-import com.example.spring.chatwork.dto.MyTasks;
+import com.example.spring.chatwork.dto.Status;
+import com.example.spring.chatwork.dto.Task;
+import com.example.spring.chatwork.dto.User;
+import com.example.spring.chatwork.dto.params.ToMapType;
+import com.example.spring.chatwork.dto.types.TypeReference;
 
 @Controller
 @RequestMapping("/my")
@@ -27,32 +25,20 @@ public class MyController {
 
 	@GetMapping("status")
 	@ResponseBody
-	public MyStatus status() {
+	public Status status() {
 
 		return chatworkApi.get("https://api.chatwork.com/v2/my/status",
-				new ParameterizedTypeReference<MyStatus>() {
-					// no process
-				});
+				TypeReference.STATUS);
 
 	}
 
 	@GetMapping("tasks")
 	@ResponseBody
-	public List<MyTasks> tasks(
-			@AuthenticationPrincipal ChatworkUser user,
-			@RequestParam(required = false) List<String> status) {
+	public List<Task> tasks(@AuthenticationPrincipal User user, Task task) {
 
-		MultiValueMap<String, String> parameters = new LinkedMultiValueMap<String, String>();
-
-		parameters.add("assigned_by_account_id", "" + user.getAccountId());
-		if (status != null) {
-			parameters.put("status", status);
-		}
-
-		return chatworkApi.get("https://api.chatwork.com/v2/my/tasks", parameters,
-				new ParameterizedTypeReference<List<MyTasks>>() {
-					// no process
-				});
+		task.setAssignedByAccount(user);
+		return chatworkApi.get("https://api.chatwork.com/v2/my/tasks", task.parameters(ToMapType.LIST),
+				TypeReference.TASKS);
 
 	}
 

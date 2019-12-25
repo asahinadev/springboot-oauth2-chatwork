@@ -25,17 +25,21 @@ public class ChatworkRequestConverter
 		switch (request.getMethod()) {
 		case GET:
 			builder.queryParams(request.getParameters());
-			break;
+			uri = builder.build().toUri();
+			return new RequestEntity<>(headers, request.getMethod(), uri);
 
 		case POST:
-			break;
+		case PUT:
+		case DELETE:
+			uri = builder.build().toUri();
+			if (request.getParameters() == null || request.getParameters().isEmpty()) {
+				return new RequestEntity<>(headers, request.getMethod(), uri);
+			}
+			return new RequestEntity<>(request.getParameters(), headers, request.getMethod(), uri);
 
 		default:
 			throw new UnsupportedOperationException();
 		}
-		uri = builder.build().toUri();
-
-		return new RequestEntity<>(headers, request.getMethod(), uri);
 
 	}
 }

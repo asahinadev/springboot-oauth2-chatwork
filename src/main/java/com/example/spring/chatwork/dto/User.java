@@ -14,13 +14,15 @@ import org.springframework.security.oauth2.core.user.OAuth2UserAuthority;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Data;
 
 @Data
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ChatworkUser implements OAuth2User {
+public class User implements OAuth2User {
 
 	@JsonProperty("account_id")
 	private String accountId;
@@ -30,6 +32,9 @@ public class ChatworkUser implements OAuth2User {
 
 	@JsonProperty("login_mail")
 	private String loginMail;
+
+	@JsonProperty("role")
+	private String role;
 
 	@JsonProperty("mail")
 	private String mail;

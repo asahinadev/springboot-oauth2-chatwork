@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.spring.chatwork.api.ChatworkApi;
-import com.example.spring.chatwork.dto.ChatworkUser;
+import com.example.spring.chatwork.dto.User;
 
 @Controller
 @RequestMapping("/contacts")
@@ -21,10 +21,10 @@ public class ContactsController {
 
 	@GetMapping("")
 	@ResponseBody
-	public List<ChatworkUser> contacts() {
+	public List<User> contacts() {
 
 		return chatworkApi.get("https://api.chatwork.com/v2/contacts",
-				new ParameterizedTypeReference<List<ChatworkUser>>() {
+				new ParameterizedTypeReference<List<User>>() {
 					// no process
 				});
 	}

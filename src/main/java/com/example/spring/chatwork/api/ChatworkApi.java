@@ -23,6 +23,11 @@ public class ChatworkApi {
 	@Autowired
 	Oauth2TokenService tokenService;
 
+	RestTemplate restTemplate = new RestTemplate();
+	{
+		restTemplate.setErrorHandler(new OAuth2ErrorResponseErrorHandler());
+	}
+
 	public <T> T get(String url, ParameterizedTypeReference<T> reference) {
 		return get(url, null, reference);
 	}
@@ -40,11 +45,58 @@ public class ChatworkApi {
 		}
 
 		ChatworkRequestConverter converter = new ChatworkRequestConverter();
-
-		RestTemplate restTemplate = new RestTemplate();
-		restTemplate.setErrorHandler(new OAuth2ErrorResponseErrorHandler());
-
 		RequestEntity<?> request = converter.convert(chatworkRequest);
+		return process(request, reference);
+	}
+
+	public <T> T post(HttpMethod method, String url, MultiValueMap<String, String> parameters,
+			ParameterizedTypeReference<T> reference) {
+
+		ChatworkRequest chatworkRequest = ChatworkRequest.builder()
+				.accessToken(tokenService.getAccessToken())
+				.url(url)
+				.method(method)
+				.parameters(parameters)
+				.build();
+
+		ChatworkRequestConverter converter = new ChatworkRequestConverter();
+		RequestEntity<?> request = converter.convert(chatworkRequest);
+		return process(request, reference);
+	}
+
+	public <T> T post(String url, ParameterizedTypeReference<T> reference) {
+		return post(url, null, reference);
+	}
+
+	public <T> T post(String url, MultiValueMap<String, String> parameters, ParameterizedTypeReference<T> reference) {
+		return post(HttpMethod.POST, url, parameters, reference);
+	}
+
+	public <T> T put(String url, ParameterizedTypeReference<T> reference) {
+		return put(url, null, reference);
+	}
+
+	public <T> T put(String url, MultiValueMap<String, String> parameters, ParameterizedTypeReference<T> reference) {
+		return post(HttpMethod.PUT, url, parameters, reference);
+	}
+
+	public <T> T patch(String url, ParameterizedTypeReference<T> reference) {
+		return patch(url, null, reference);
+	}
+
+	public <T> T patch(String url, MultiValueMap<String, String> parameters, ParameterizedTypeReference<T> reference) {
+		return post(HttpMethod.PATCH, url, parameters, reference);
+	}
+
+	public <T> T del(String url, ParameterizedTypeReference<T> reference) {
+		return del(url, null, reference);
+	}
+
+	public <T> T del(String url, MultiValueMap<String, String> parameters, ParameterizedTypeReference<T> reference) {
+		return post(HttpMethod.DELETE, url, parameters, reference);
+	}
+
+	public <T> T process(RequestEntity<?> request, ParameterizedTypeReference<T> reference) {
 
 		log.debug("request  {}", request.getMethod());
 		log.debug("request  {}", request.getUrl());
